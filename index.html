@@ -1,0 +1,849 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Roselle Fashion Store</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+}
+
+body{
+background:#f7f7f7;
+}
+
+
+header{
+background:white;
+box-shadow:0 2px 10px #ccc;
+position:sticky;
+top:0;
+z-index:100;
+}
+
+
+.top{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:15px;
+gap:15px;
+flex-wrap:wrap;
+}
+
+
+.logo{
+font-size:30px;
+font-weight:bold;
+color:#e91e63;
+}
+
+
+.search input{
+width:300px;
+padding:12px;
+border-radius:25px;
+border:1px solid #ccc;
+}
+
+
+.actions a{
+text-decoration:none;
+margin:5px;
+color:#333;
+font-size:14px;
+}
+
+
+nav{
+background:#111;
+padding:12px;
+display:flex;
+justify-content:center;
+gap:25px;
+flex-wrap:wrap;
+}
+
+
+nav a{
+color:white;
+text-decoration:none;
+}
+
+
+
+.hero{
+
+height:400px;
+
+background:
+linear-gradient(
+rgba(0,0,0,.4),
+rgba(0,0,0,.4)
+),
+url("https://images.unsplash.com/photo-1445205170230-053b83016050");
+
+background-size:cover;
+background-position:center;
+
+display:flex;
+justify-content:center;
+align-items:center;
+text-align:center;
+color:white;
+
+}
+
+
+.hero h1{
+font-size:45px;
+}
+
+
+button{
+
+padding:10px 20px;
+background:#e91e63;
+color:white;
+border:none;
+border-radius:20px;
+cursor:pointer;
+
+}
+
+
+
+section{
+padding:40px 20px;
+}
+
+
+h2{
+text-align:center;
+margin-bottom:30px;
+}
+
+
+
+.products{
+
+display:grid;
+grid-template-columns:
+repeat(auto-fit,minmax(220px,1fr));
+
+gap:20px;
+
+}
+
+
+
+.card{
+
+background:white;
+padding:15px;
+border-radius:15px;
+text-align:center;
+box-shadow:0 3px 10px #ddd;
+
+}
+
+
+.card img{
+
+width:100%;
+height:280px;
+object-fit:cover;
+border-radius:10px;
+
+}
+
+
+
+.price{
+
+color:#e91e63;
+font-size:22px;
+font-weight:bold;
+
+}
+
+
+.old{
+
+text-decoration:line-through;
+color:gray;
+
+}
+
+
+
+footer{
+
+background:#111;
+color:white;
+padding:30px;
+text-align:center;
+
+}
+
+
+
+@media(max-width:600px){
+
+.hero h1{
+font-size:30px;
+}
+
+.search input{
+width:250px;
+}
+
+}
+
+
+</style>
+
+</head>
+
+
+<body>
+<div id="loader">
+
+Loading Roselle...
+
+</div>
+
+
+<header>
+
+<button onclick="toggleDarkMode()" class="dark-btn">
+🌙
+</button>
+
+<div class="top">
+
+
+<div class="logo">
+Roselle
+</div>
+
+
+
+<div class="search">
+
+<input 
+type="text" 
+id="searchInput"
+placeholder="Search products..."
+onkeyup="searchProducts()">
+
+</div>
+
+
+
+<div class="actions">
+
+<a href="login.html">
+Login
+</a>
+
+<a href="signup.html">
+Sign Up
+</a>
+
+<a href="account.html">
+👤 My Account
+</a>
+
+<a href="wishlist.html">
+❤️ Wishlist (<span id="wishCount">0</span>)
+</a>
+
+<a href="cart.html">
+🛒 Cart (<span id="cartCount">0</span>)
+</a>
+
+</div>
+</div>
+<div class="mobile-cart">
+
+<a href="cart.html">
+🛒 View Cart
+</a>
+
+</div>
+
+
+
+<nav>
+<div class="hamburger" onclick="toggleMenu()">
+☰
+</div>
+
+<a href="#home">Home</a>
+<a href="#women">Women</a>
+<a href="#men">Men</a>
+<a href="#beauty">Beauty</a>
+<a href="#accessories">Accessories</a>
+<a href="#footwear">Footwear</a>
+
+</nav>
+
+
+</header>
+
+
+
+
+
+<section class="hero">
+
+
+<div>
+
+<h1>
+Fashion For Everyone
+</h1>
+
+<p>
+Trendy clothes at affordable prices
+</p>
+
+<br>
+
+<button>
+Shop Now
+</button>
+
+
+</div>
+
+
+</section>
+
+<section class="products">
+    <!-- FILTER SECTION -->
+     <section id="products-section">
+
+<section class="filters-section">
+
+
+<div class="filters">
+
+<h2>
+Filter Products
+</h2>
+<align="center"></align>
+
+
+<label>
+Category:
+</label>
+
+<select id="categoryFilter" onchange="filterProducts()">
+
+<option value="all">All</option>
+
+<option value="women">Women</option>
+
+<option value="men">Men</option>
+
+<option value="beauty">Beauty</option>
+
+<option value="footwear">Footwear</option>
+
+</select>
+
+
+
+<label>
+Price:
+</label>
+
+<select id="priceFilter" onchange="filterProducts()">
+
+<option value="all">All Prices</option>
+
+<option value="500">Under ₹500</option>
+
+<option value="1000">₹500 - ₹1000</option>
+
+<option value="2000">Above ₹1000</option>
+
+</select>
+
+
+
+<label>
+Rating:
+</label>
+
+<select id="ratingFilter" onchange="filterProducts()">
+
+<option value="0">All Ratings</option>
+
+<option value="5">★★★★★</option>
+
+<option value="4">★★★★ & Above</option>
+
+</select>
+
+
+</div>
+
+
+</section>
+
+
+
+
+
+<!-- TRENDING PRODUCTS SECTION -->
+
+
+<section id="products-section">
+
+
+<h2>
+Trending Products
+</h2>
+
+
+<div class="products">
+
+</select>
+
+
+</div>
+
+
+
+<div class="products">
+
+
+<div class="card" data-name="floral dress">
+
+
+<img src="https://images.unsplash.com/photo-1595777457583-95e059d581b8">
+
+<h3>
+Floral Dress
+</h3>
+
+<p>
+★★★★★
+</p>
+
+<p class="old">
+₹999
+</p>
+
+<p class="price">
+₹599
+</p>
+
+<button onclick="addToCart('Floral Dress',599)">
+Add Cart
+</button>
+
+</div>
+
+
+
+
+
+<div class="card" data-name="floral dress">
+
+<img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab">
+
+<h3>
+Casual T-Shirt
+</h3>
+
+<p>
+★★★★★
+</p>
+
+<p class="old">
+₹799
+</p>
+
+<p class="price">
+₹399
+</p>
+
+<button onclick="addToCart('Floral Dress',599)">
+Add Cart
+</button>
+
+</div>
+
+
+
+
+
+<div class="card" data-name="casual tshirt">
+
+<img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff">
+
+<h3>
+Sneakers
+</h3>
+
+<p>
+★★★★★
+</p>
+
+<p class="old">
+₹1999
+</p>
+
+<p class="price">
+₹899
+</p>
+
+<button onclick="addToCart('Casual T-Shirt',399)">
+Add Cart
+</button>
+
+</div>
+
+
+
+
+
+<div class="card" data-name="sneakers shoes">
+
+<img src="https://images.unsplash.com/photo-1553062407-98eeb64c6a62">
+
+<h3>
+Fashion Bag
+</h3>
+
+<p>
+★★★★★
+</p>
+
+<p class="old">
+₹1499
+</p>
+
+<p class="price">
+₹699
+</p>
+
+<button onclick="addToCart('Sneakers',899)">
+Add Cart
+</button>
+
+</div>
+
+
+
+
+
+<div class="card" data-name="luxury watch">
+
+<img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30">
+
+<h3>
+Luxury Watch
+</h3>
+
+<p>
+★★★★★
+</p>
+
+<p class="old">
+₹2999
+</p>
+
+<p class="price">
+₹999
+</p>
+
+<button onclick="addToCart('Luxury Watch',999)">
+Add Cart
+</button>
+
+</div>
+
+
+
+
+
+<div class="card" data-name="beauty products">
+
+<img src="https://images.unsplash.com/photo-1596462502278-27bfdc403348">
+
+<h3>
+Beauty Products
+</h3>
+
+<p>
+★★★★★
+</p>
+
+<p class="old">
+₹899
+</p>
+
+<p class="price">
+₹299
+</p>
+
+<button onclick="addToCart('Beauty Products',299)">
+Add Cart
+</button>
+
+</div>
+
+
+
+
+</div>
+
+
+
+
+</section>
+
+<section class="reviews">
+
+<h2>
+Customer Reviews
+</h2>
+
+
+<div class="review-box">
+
+
+<div class="review">
+
+<h3>
+Priya
+</h3>
+
+<p>
+⭐⭐⭐⭐⭐
+</p>
+
+<p>
+Amazing quality and fast delivery.
+</p>
+
+</div>
+
+
+
+<div class="review">
+
+<h3>
+Rahul
+</h3>
+
+<p>
+⭐⭐⭐⭐
+</p>
+
+<p>
+Good products at affordable prices.
+</p>
+
+</div>
+
+
+
+<div class="review">
+
+<h3>
+Ananya
+</h3>
+
+<p>
+⭐⭐⭐⭐⭐
+</p>
+
+<p>
+Loved the fashion collection.
+</p>
+
+</div>
+
+<section class="newsletter">
+
+<h2>
+Subscribe For Offers
+</h2>
+
+
+<input 
+id="email"
+placeholder="Enter Email">
+
+
+<button onclick="subscribe()">
+
+Subscribe
+
+</button>
+
+
+</section>
+
+</div>
+
+</section>
+
+
+
+
+<footer>
+
+<h2>
+Roselle Fashion
+</h2>
+
+<p>
+About | Contact | Privacy | Returns
+</p>
+
+<p>
+© 2026 Roselle
+</p>
+
+</footer>
+
+
+
+<script>
+
+function searchProducts(){
+
+let input = document.getElementById("searchInput").value.toLowerCase();
+
+
+let products = document.querySelectorAll(".card");
+
+
+products.forEach(function(product){
+
+
+let name = product.getAttribute("data-name");
+
+
+if(name.includes(input)){
+
+product.style.display="block";
+
+}
+
+else{
+
+product.style.display="none";
+
+}
+
+
+});
+
+
+}
+
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+
+function addToCart(name,price){
+
+
+let existing = cart.find(item => item.name === name);
+
+
+if(existing){
+
+existing.quantity++;
+
+}
+
+else{
+
+
+cart.push({
+
+name:name,
+
+price:price,
+
+quantity:1
+
+});
+
+
+}
+
+
+localStorage.setItem(
+"cart",
+JSON.stringify(cart)
+);
+
+
+updateCartCount();
+
+
+alert(name+" added to cart 🛒");
+
+
+}
+
+
+
+function updateCartCount(){
+
+
+let count = 0;
+
+
+cart.forEach(item=>{
+
+count += item.quantity;
+
+});
+
+
+let cartElement=document.getElementById("cartCount");
+
+
+if(cartElement){
+
+cartElement.innerHTML=count;
+
+}
+
+
+}
+
+
+updateCartCount();
+
+
+
+</script>
+
+<button onclick="topFunction()" id="topBtn">
+
+⬆️
+
+</button>
+</body>
+
+</html>
